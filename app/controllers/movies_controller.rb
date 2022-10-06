@@ -6,6 +6,7 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+
   def index
     @all_ratings = Movie.all_ratings
     if !params[:ratings]
@@ -13,7 +14,20 @@ class MoviesController < ApplicationController
     else
       @ratings_to_show = params[:ratings].keys
     end
-    @movies = Movie.with_ratings(@ratings_to_show)
+    
+    if !params[:columns]
+      @columns = []
+    else
+      @columns = params[:columns].keys
+    end
+
+    if params[:sort] == 'title'
+      @movies = Movie.with_ratings(@columns).order(:title)
+    elsif params[:sort] == 'release_date'
+      @movies = Movie.with_ratings(@columns).order(:release_date)
+    else
+      @movies = Movie.with_ratings(@ratings_to_show)
+    end
   end
 
   def new
