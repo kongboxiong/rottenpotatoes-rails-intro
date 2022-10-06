@@ -19,7 +19,7 @@ class MoviesController < ApplicationController
     else
       @ratings_to_show = params[:ratings].keys
     end
-    
+    ####
     if !params[:columns]
       if session[:columns]
         @columns = session[:columns] 
